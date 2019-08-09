@@ -22,10 +22,11 @@ videojs.registerPlugin('downloadTranscript', function() {
   });
 
   myPlayer.on('loadstart',function(){
-    var colonLocation;
-    // +++ Retrieve the URL for the text track, which is in this case a WebVTT caption file +++
+    var colonLocation,
+    // +++ Retrieve the URL from the text track, which is in this case a WebVTT caption file +++
     // +++ Call the getFile function to get the actual file from the URL +++
-    url = myPlayer.mediainfo.textTracks[0].src;
+      chosenTrack = myPlayer.mediainfo.textTracks.filter(function(track) { return track.kind === 'captions' || track.kind === 'subtitles'; });
+    url = chosenTrack[0].src;
     // Make URL for text track protocol relative (no http or https)
     colonLocation = url.indexOf(':');
     url =  url.substr(colonLocation + 1);
